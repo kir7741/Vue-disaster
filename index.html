@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>台北市</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/disaster.css">
+
+</head>
+<body>
+  <div id="app">
+    <p>{{msg}}</p>
+    <com-header></com-header>
+    <hr>
+    <com-content></com-content>
+  </div>
+
+  <template id="com-header">
+    <div id="header">
+      <div class="title">
+        <h1>台北市即時災害查詢</h1>
+      </div>
+      <div class="form-set">
+        <div class="select">
+          <select class="form-control" id="select-list"
+                  v-model="area">
+            <option value disabled selected>--請選擇行政區--</option>
+            <option v-for="area in areas"
+                    :value="area"
+            >{{area}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="com-content">
+    <div id="data-list">
+      <div class="list-wrap">
+        <ul>
+          <li v-for="data in filteredArea.slice(pageStart,pageStart + countOfPage)">
+            <div class="item-wrap">
+              <h3>{{data.CaseLocationDistrict}}</h3>
+              <div>
+                <p>{{data.CaseLocationDescription}}</p>
+                <p>{{data.CaseTime}}</p>
+                <p>{{data.CaseDescription}}</p>
+              </div>
+            </div>
+          </li>
+        </ul>     
+      </div>
+      <ul class="pagination">
+        <li :class="{'disabled': (currPage === 1)}" 
+             @click.prevent="setPage(currPage - 1)">
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li :class="{'active': (currPage === n)}" 
+            @click.prevent="setPage(n)" 
+            v-for="n in totalPage"><a href="#">{{n}}</a>
+        </li>
+        <li :class="{'disabled': (currPage === totalPage)}" 
+            @click.prevent="setPage(currPage + 1)">
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </template>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script type="text/javascript"src="js/disaster.js"></script>
+</body>
+</html>
